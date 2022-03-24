@@ -7,24 +7,34 @@
 
 import Foundation
 
+let userDefaultsKey = "ITEMS_LIST"
+
 class ItemList{
-    var items = [Item]()
+    static var items = [Item]()
     
-    func addItem(item: Item){
+     static func addItem(item: Item){
         // complete code
         items.append(item)
+         updateUserDefaults()
     }
     
-    func deleteItem(row: Int){
+    static func deleteItem(row: Int){
         // complete code
         items.remove(at: row)
+        updateUserDefaults()
     }
     
-    func moveItem(from: Int, to: Int){
+    static func moveItem(from: Int, to: Int){
         // complete code
         let itemToMove = items[from]
         items[to] = itemToMove
         items.remove(at: from)
+        updateUserDefaults()
+    }
+    
+    static private func updateUserDefaults()
+    {
+        UserDefaults.standard.set(items, forKey: userDefaultsKey)
     }
     
 }

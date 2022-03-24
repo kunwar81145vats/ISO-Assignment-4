@@ -18,6 +18,11 @@ class ItemTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -28,14 +33,17 @@ class ItemTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return ItemList.items.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath)
 
         // Configure the cell...
-
+        var content = cell.defaultContentConfiguration()
+        content.text = ItemList.items[indexPath.row].name
+        cell.contentConfiguration = content
+        
         return cell
     }
 
@@ -73,13 +81,12 @@ class ItemTableViewController: UITableViewController {
         return true
     }
     */
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let detailVCObject = self.storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController else { return }
+        detailVCObject.selectedIndex = indexPath.row
+        self.navigationController?.pushViewController(detailVCObject, animated: true)
         
     }
 

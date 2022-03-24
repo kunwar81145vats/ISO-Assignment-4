@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Item{
+class Item: Codable{
     var name: String
     var SKU: String
     var description: String

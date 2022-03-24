@@ -7,7 +7,7 @@
 
 import Foundation
 
-let userDefaultsKey = "ITEMS_LIST"
+let itemsKey = "ITEMS_LIST"
 
 class ItemList{
     static var items = [Item]()
@@ -34,7 +34,26 @@ class ItemList{
     
     static private func updateUserDefaults()
     {
-        UserDefaults.standard.set(items, forKey: userDefaultsKey)
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(items)
+
+            UserDefaults.standard.set(data, forKey: itemsKey)
+        } catch {
+            print("Unable to Encode Note (\(error))")
+        }
+        
     }
     
+    static func loadItemsFromUserDefaults()
+    {
+        if let data = UserDefaults.standard.data(forKey: itemsKey) {
+            do {
+                let decoder = JSONDecoder()
+                items = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Unable to Decode Note (\(error))")
+            }
+        }
+    }
 }

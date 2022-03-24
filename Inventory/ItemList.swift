@@ -26,9 +26,10 @@ class ItemList{
     
     static func moveItem(from: Int, to: Int){
         // complete code
-        let itemToMove = items[from]
-        items[to] = itemToMove
-        items.remove(at: from)
+        let itemFromMove = items[from]
+        let itemToMove = items[to]
+        items[from] = itemToMove
+        items[to] = itemFromMove
         updateUserDefaults()
     }
     
